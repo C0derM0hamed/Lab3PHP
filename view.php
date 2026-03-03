@@ -1,9 +1,20 @@
-<link rel="stylesheet" href="style.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
 <?php
 require_once "Database.php";
 
 if (!isset($_GET['id'])) {
-    echo "No ID provided.";
+    echo "<div class='alert alert-danger'>No ID provided.</div>";
     exit;
 }
 
@@ -19,35 +30,59 @@ try {
     $student = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$student) {
-        echo "Record not found.";
+        echo "<div class='alert alert-warning'>Record not found.</div>";
         exit;
     }
 
-    echo "<h2>Student Details</h2>";
-    echo "<table border='1' cellpadding='8'>";
+    echo "<div class='card shadow-sm'>";
+    echo "<div class='card-body'>";
+    echo "<h3 class='card-title mb-4 text-center'>Student Details</h3>";
+    echo "<table class='table table-bordered'>";
 
-    echo "<tr><td>ID</td><td>" . $student['id'] . "</td></tr>";
-    echo "<tr><td>First Name</td><td>" . $student['first_name'] . "</td></tr>";
-    echo "<tr><td>Last Name</td><td>" . $student['last_name'] . "</td></tr>";
-    echo "<tr><td>Address</td><td>" . $student['address'] . "</td></tr>";
-    echo "<tr><td>Country</td><td>" . $student['country'] . "</td></tr>";
-    echo "<tr><td>Gender</td><td>" . $student['gender'] . "</td></tr>";
-    echo "<tr><td>Username</td><td>" . $student['username'] . "</td></tr>";
+    echo "<tr><th>ID</th>
+    <td>" . $student['id'] . "</td>
+    </tr>";
+    echo "<tr><th>First Name</th>
+    <td>" . $student['first_name'] . "</td>
+    </tr>";
+    echo "<tr><th>Last Name</th>
+    <td>" . $student['last_name'] . "</td>
+    </tr>";
+    echo "<tr><th>Address</th>
+    <td>" . $student['address'] . "</td>
+    </tr>";
+    echo "<tr><th>Country</th>
+    <td>" . $student['country'] . "</td>
+    </tr>";
+    echo "<tr><th>Gender</th>
+    <td>" . $student['gender'] . "</td>
+    </tr>";
+    echo "<tr><th>Username</th>
+    <td>" . $student['username'] . "</td>
+    </tr>";
 
-    echo "<tr><td>Skills</td><td>";
+    echo "<tr><th>Skills</th><td>";
 
     $skillsArray = explode(",", $student['skills']);
     foreach ($skillsArray as $skill) {
-        echo ($skill) . "<br>";
+        echo "<span class='badge bg-secondary me-1'>" . trim($skill) . "</span>";
     }
 
     echo "</td></tr>";
 
-    echo "<tr><td>Department</td><td>" . $student['department'] . "</td></tr>";
+    echo "<tr><th>Department</th><td>" . $student['department'] . "</td></tr>";
 
     echo "</table>";
+    echo "<a href='list.php' class='btn btn-primary'>Back to List</a>";
+    echo "</div>";
+    echo "</div>";
 
 } catch (PDOException $e) {
-    echo "Database Error: " . $e->getMessage();
+    echo "<div class='alert alert-danger'>Database Error: " . $e->getMessage() . "</div>";
 }
 ?>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -40,8 +40,4 @@ $statment->execute([
 
     header("Location: list.php");
     exit;
-
-
-
-
 ?>
