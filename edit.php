@@ -46,7 +46,7 @@ try {
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h3 class="card-title mb-4 text-center">Edit Student</h3>
-                    <form action="update.php" method="POST">
+                    <form action="update.php" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="id" value="<?= $student['id'] ?>">
                         <div class="mb-3">
                             <label class="form-label">First Name:</label>
@@ -102,6 +102,16 @@ try {
                         <div class="mb-3">
                             <label class="form-label">Username:</label>
                             <input type="text" name="username" class="form-control" value="<?= $student['username'] ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Profile Picture:</label>
+                            <?php if (!empty($student['profile_picture'])): ?>
+                                <div class="mb-2">
+                                    <img src="<?= $student['profile_picture'] ?>" alt="Current Profile" class="rounded" width="80" height="80" style="object-fit:cover;">
+                                </div>
+                            <?php endif; ?>
+                            <input type="file" name="profile_picture" class="form-control" accept=".jpg,.jpeg,.png" />
+                            <div class="form-text">JPG or PNG only, max 2MB. Leave empty to keep current picture.</div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Department:</label>

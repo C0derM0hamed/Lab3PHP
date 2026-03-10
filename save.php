@@ -21,12 +21,38 @@ $skills = implode(",", array_map('trim', $_POST['skills']));
 $username = trim($_POST['username']);
 $department = trim($_POST['department']);
 
+// Handle profile picture upload
+$profilePicture = '';
+if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+    $file = $_FILES['profile_picture'];
+    $allowedTypes = ['image/jpeg', 'image/png'];
+    $maxSize = 2 * 1024 * 1024; // 2MB
 
+    if (!in_array($file['type'], $allowedTypes)) {
+        echo "Invalid file type. Only JPG and PNG are allowed.";
+        exit;
+    }
 
-$sql = "INSERT INTO students (first_name, last_name, address, country, gender, skills, username, department) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    if ($file['size'] > $maxSize) {
+        echo "File is too large. Maximum size is 2MB.";
+        exit;
+    }
+
+    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $newFileName = uniqid('profile_', true) . '.' . $ext;
+    $destination = 'uploads/' . $newFileName;
+
+    if (!move_uploaded_file($file['tmp_name'], $destination)) {
+        echo "Failed to upload file.";
+        exit;
+    }
+
+    $profilePicture = $destination;
+}
+
+$sql = "INSERT INTO students (first_name, last_name, address, country, gender, skills, username, department, profile_picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $statment = $db->prepare($sql);
-
 
 $statment->execute([
         $firstName,
@@ -36,7 +62,8 @@ $statment->execute([
         $gender,
         $skills,
         $username,
-        $department]);
+        $department,
+        $profilePicture]);
 
     header("Location: list.php");
     exit;

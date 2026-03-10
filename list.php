@@ -26,6 +26,7 @@ echo "<table class='table table-striped table-hover table-bordered align-middle'
 echo "<thead class='table-dark'>";
 echo "<tr>";
 echo "<th>ID</th>";
+echo "<th>Photo</th>";
 echo "<th>Name</th>";
 echo "<th>Adress</th>";
 echo "<th>Country</th>";
@@ -40,6 +41,11 @@ echo "<tbody>";
 foreach($rows as $r){
     echo "<tr>";
     echo "<td>" . $r['id'] . "</td>";
+    if (!empty($r['profile_picture'])) {
+        echo "<td><img src='" . $r['profile_picture'] . "' alt='Profile' class='rounded-circle' width='40' height='40' style='object-fit:cover;'></td>";
+    } else {
+        echo "<td><span class='text-muted'>No photo</span></td>";
+    }
     echo "<td>" . $r['first_name'] . " " . $r['last_name'] . "</td>";
     echo "<td>" . $r['address'] . "</td>";
     echo "<td>" . $r['country'] . "</td>";    

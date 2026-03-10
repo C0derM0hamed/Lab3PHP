@@ -13,7 +13,7 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h3 class="card-title mb-4 text-center">Add Student</h3>
-                    <form action="save.php" method="POST">
+                    <form action="save.php" method="POST" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label class="form-label">First Name:</label>
                             <input type="text" name="FirstName" class="form-control" />
@@ -67,6 +67,11 @@
                         <div class="mb-3">
                             <label class="form-label">Username:</label>
                             <input type="text" name="username" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Profile Picture:</label>
+                            <input type="file" name="profile_picture" class="form-control" accept=".jpg,.jpeg,.png" />
+                            <div class="form-text">JPG or PNG only, max 2MB.</div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Department:</label>
