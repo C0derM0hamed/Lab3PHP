@@ -1,0 +1,86 @@
+/* Custom styles to enhance Bootstrap 5 */
+
+/* Navbar brand styling */
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Card improvements */
+.card {
+    border: none;
+    border-radius: 12px;
+}
+
+.card-title {
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+/* Form label styling */
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+/* Form control focus enhancement */
+.form-control:focus,
+.form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* Button improvements */
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Validation error messages */
+.invalid-feedback {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.validation-error {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Table styling */
+.table th {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Login page centering */
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+/* Page title */
+.page-title {
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+/* Smooth transitions */
+.form-control,
+.form-select,
+.form-check-input {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Footer spacing */
+body {
+    min-height: 100vh;
+}

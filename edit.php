@@ -1,3 +1,4 @@
+<?php require_once 'auth_check.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Student</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="list.php">Student System</a>
+        <div class="d-flex align-items-center">
+            <span class="text-light me-3">Welcome, <?= htmlspecialchars($_SESSION['username']) ?></span>
+            <a href="logout.php" class="btn btn-outline-light btn-sm">Logout</a>
+        </div>
+    </div>
+</nav>
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -46,7 +57,7 @@ try {
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h3 class="card-title mb-4 text-center">Edit Student</h3>
-                    <form action="update.php" method="POST">
+                    <form id="editForm" action="update.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm('editForm')">
                         <input type="hidden" name="id" value="<?= $student['id'] ?>">
                         <div class="mb-3">
                             <label class="form-label">First Name:</label>
@@ -104,6 +115,16 @@ try {
                             <input type="text" name="username" class="form-control" value="<?= $student['username'] ?>">
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Profile Picture:</label>
+                            <?php if (!empty($student['profile_picture'])): ?>
+                                <div class="mb-2">
+                                    <img src="<?= $student['profile_picture'] ?>" alt="Current Profile" class="rounded" width="80" height="80" style="object-fit:cover;">
+                                </div>
+                            <?php endif; ?>
+                            <input type="file" name="profile_picture" class="form-control" accept=".jpg,.jpeg,.png" />
+                            <div class="form-text">JPG or PNG only, max 2MB. Leave empty to keep current picture.</div>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Department:</label>
                             <input type="text" name="department" class="form-control" value="<?= $student['department'] ?>">
                         </div>
@@ -117,5 +138,6 @@ try {
         </div>
     </div>
 </div>
+<script src="validate.js"></script>
 </body>
 </html>

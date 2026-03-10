@@ -1,3 +1,4 @@
+<?php require_once 'auth_check.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,10 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="list.php">Student System</a>
+        <div class="d-flex align-items-center">
+            <span class="text-light me-3">Welcome, <?= htmlspecialchars($_SESSION['username']) ?></span>
+            <a href="logout.php" class="btn btn-outline-light btn-sm">Logout</a>
+        </div>
+    </div>
+</nav>
 <div class="container py-5">
-    <h2 class="mb-4 text-center">Student List</h2>
+    <h2 class="mb-4 text-center page-title">Student List</h2>
     <div class="mb-3">
         <a href="index.php" class="btn btn-primary">Add New Student</a>
     </div>
@@ -26,6 +37,7 @@ echo "<table class='table table-striped table-hover table-bordered align-middle'
 echo "<thead class='table-dark'>";
 echo "<tr>";
 echo "<th>ID</th>";
+echo "<th>Photo</th>";
 echo "<th>Name</th>";
 echo "<th>Adress</th>";
 echo "<th>Country</th>";
@@ -40,6 +52,11 @@ echo "<tbody>";
 foreach($rows as $r){
     echo "<tr>";
     echo "<td>" . $r['id'] . "</td>";
+    if (!empty($r['profile_picture'])) {
+        echo "<td><img src='" . $r['profile_picture'] . "' alt='Profile' class='rounded-circle' width='40' height='40' style='object-fit:cover;'></td>";
+    } else {
+        echo "<td><span class='text-muted'>No photo</span></td>";
+    }
     echo "<td>" . $r['first_name'] . " " . $r['last_name'] . "</td>";
     echo "<td>" . $r['address'] . "</td>";
     echo "<td>" . $r['country'] . "</td>";    
