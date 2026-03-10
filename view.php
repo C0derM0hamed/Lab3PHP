@@ -37,6 +37,13 @@ try {
     echo "<div class='card shadow-sm'>";
     echo "<div class='card-body'>";
     echo "<h3 class='card-title mb-4 text-center'>Student Details</h3>";
+
+    if (!empty($student['profile_picture'])) {
+        echo "<div class='text-center mb-3'>";
+        echo "<img src='" . $student['profile_picture'] . "' alt='Profile Picture' class='rounded-circle' width='100' height='100' style='object-fit:cover;'>";
+        echo "</div>";
+    }
+
     echo "<table class='table table-bordered'>";
 
     echo "<tr><th>ID</th>

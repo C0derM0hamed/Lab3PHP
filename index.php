@@ -13,7 +13,7 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h3 class="card-title mb-4 text-center">Add Student</h3>
-                    <form id="studentForm" action="save.php" method="POST" onsubmit="return validateForm('studentForm')">
+                    <form id="studentForm" action="save.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm('studentForm')">
                         <div class="mb-3">
                             <label class="form-label">First Name:</label>
                             <input type="text" name="FirstName" class="form-control" />
@@ -73,6 +73,11 @@
                             <label class="form-label">Password:</label>
                             <input type="password" name="password" class="form-control" />
                             <div class="form-text">Exactly 8 characters: lowercase letters, numbers, and underscore only.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Profile Picture:</label>
+                            <input type="file" name="profile_picture" class="form-control" accept=".jpg,.jpeg,.png" />
+                            <div class="form-text">JPG or PNG only, max 2MB.</div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Department:</label>
