@@ -1,110 +1,51 @@
-<?php session_start(); ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Student</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="bg-light">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="list.php">Student System</a>
-        <div class="d-flex align-items-center">
-            <span class="text-light me-3">Welcome, <?= htmlspecialchars($_SESSION['username']) ?></span>
-            <a href="logout.php" class="btn btn-outline-light btn-sm">Logout</a>
-        </div>
-    </div>
-</nav>
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h3 class="card-title mb-4 text-center">Add Student</h3>
-                    <form id="studentForm" action="save.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm('studentForm')">
-                        <div class="mb-3">
-                            <label class="form-label">First Name:</label>
-                            <input type="text" name="FirstName" class="form-control" />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Last Name:</label>
-                            <input type="text" name="LastName" class="form-control" />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Address:</label>
-                            <textarea name="Address" class="form-control" rows="3"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Country:</label>
-                            <select name="country" class="form-select">
-                                <option value="">-- Select Country --</option>
-                                <option value="Cairo">Cairo</option>
-                                <option value="Asuit">Asuit</option>
-                                <option value="Alexandria">Alexandria</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Gender:</label>
-                            <div>
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" name="Gender" value="Male" class="form-check-input" id="male">
-                                    <label class="form-check-label" for="male">Male</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" name="Gender" value="Female" class="form-check-input" id="female">
-                                    <label class="form-check-label" for="female">Female</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Skills:</label>
-                            <div>
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" name="skills[]" value="PHP" class="form-check-input" id="php">
-                                    <label class="form-check-label" for="php">PHP</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" name="skills[]" value="HTML" class="form-check-input" id="html">
-                                    <label class="form-check-label" for="html">HTML</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" name="skills[]" value="CSS" class="form-check-input" id="css">
-                                    <label class="form-check-label" for="css">CSS</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Username:</label>
-                            <input type="text" name="username" class="form-control" />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Password:</label>
-                            <input type="password" name="password" class="form-control" />
-                            <div class="form-text">Exactly 8 characters: lowercase letters, numbers, and underscore only.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Profile Picture:</label>
-                            <input type="file" name="profile_picture" class="form-control" accept=".jpg,.jpeg,.png" />
-                            <div class="form-text">JPG or PNG only, max 2MB.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Department:</label>
-                            <input type="text" name="department" value="OpenSource" class="form-control" readonly />
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Reset</button>
-                            <a href="list.php" class="btn btn-outline-success">View List</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="validate.js"></script>
-</body>
-</html>
+<?php
+require_once __DIR__ . '/app/bootstrap.php';
+require_once __DIR__ . '/app/models/Database.php';
+require_once __DIR__ . '/app/models/Student.php';
+require_once __DIR__ . '/app/controllers/StudentController.php';
+require_once __DIR__ . '/app/controllers/AuthController.php';
+
+$db = \Database::getInstance($config['db'])->getConnection();
+$studentModel = new \Student($db);
+
+$studentController = new \StudentController($studentModel);
+$authController = new \AuthController($studentModel);
+
+$route = $_GET['route'] ?? 'register';
+
+switch ($route) {
+    case 'register':
+        $studentController->showCreate();
+        break;
+    case 'student.store':
+        $studentController->store();
+        break;
+    case 'students':
+        $studentController->index();
+        break;
+    case 'student.view':
+        $studentController->show();
+        break;
+    case 'student.edit':
+        $studentController->edit();
+        break;
+    case 'student.update':
+        $studentController->update();
+        break;
+    case 'student.delete':
+        $studentController->delete();
+        break;
+    case 'login':
+        $authController->showLogin();
+        break;
+    case 'login.process':
+        $authController->login();
+        break;
+    case 'logout':
+        $authController->logout();
+        break;
+    default:
+        http_response_code(404);
+        echo 'Route not found.';
+        break;
+}
